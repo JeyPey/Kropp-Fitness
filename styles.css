@@ -169,6 +169,40 @@ body {
   overflow: hidden;
 }
 
+.title-medium {
+  font-size: clamp(20px, 2.08vw, 40px);
+  line-height: 1.3;
+  color: var(--color-light);
+}
+
+.backdrop-title {
+  position: relative;
+  z-index: 2;
+}
+
+.backdrop-title::before {
+  content: '';
+  display: block;
+  position: absolute;
+  right: calc(100% + 8px);
+  width: 26px;
+  aspect-ratio: 1;
+  background: url('./icons/plus.svg') center/contain no-repeat;
+}
+
+.backdrop-title::after {
+  content: attr(data-title);
+  position: absolute;
+  z-index: -1;
+  top: -0.45em;
+  left: -0.6em;
+  font-family: var(--font-family-accent);
+  font-size: 2.8em;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--color-light-gray);
+  text-stroke: 1px var(--color-light-gray);
+}
+
 body {
   font-family: var(--font-family-base);
   font-weight: 300;
@@ -192,6 +226,14 @@ a {
 
 a:hover {
   color: var(--color-light-gray);
+}
+
+p {
+  margin-block: 0;
+}
+
+p:not(:last-child) {
+  margin-bottom: 24px;
 }
 
 .container {
@@ -220,6 +262,7 @@ h6 {
   line-height: 2;
   letter-spacing: 1.2px;
   text-transform: uppercase;
+  text-decoration: none;
   white-space: nowrap;
   background-color: var(--color-light);
   border: none;
@@ -227,6 +270,31 @@ h6 {
 }
 
 .button:hover {
+  background-color: var(--color-light-gray);
+}
+
+.button.transparent {
+  position: relative;
+  height: var(--input-height);
+  padding-left: 31px;
+  padding-right: 80px;
+  background-color: transparent;
+  border: var(--border);
+}
+
+.button.transparent::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  height: 100%;
+  aspect-ratio: 1;
+  background: url('./icons/arrow-top-right.svg') center/70% no-repeat;
+  border: var(--border);
+  border-radius: 50%;
+}
+
+.button.transparent:hover {
+  color: var(--color-dark);
   background-color: var(--color-light-gray);
 }
 
@@ -303,7 +371,7 @@ h6 {
   box-shadow: 16px 0 0 currentColor;
 }
 
-.banner{
+.banner {
   display: flex;
   flex-direction: column;
   justify-content: end;
@@ -313,11 +381,11 @@ h6 {
   background-color: var(--color-dark-alternate);
 }
 
-.banner-body{
+.banner-body {
   text-transform: uppercase;
 }
 
-.banner-info{
+.banner-info {
   display: flex;
   align-items: end;
   font-size: clamp(16px, 1.56vw, 30px);
@@ -325,29 +393,30 @@ h6 {
   font-weight: 700;
 }
 
-.banner-info::before{
+.banner-info::before {
   content: '';
   width: clamp(60px, 10.1vw, 194px);
   aspect-ratio: 1;
   margin-right: 30px;
-  background: url('./icons/bold-arrow-down-right.svg') center/contain no-repeat; /* TOPCHIK */
+  background: url('./icons/bold-arrow-down-right.svg') center/contain no-repeat;
+  /* TOPCHIK */
 }
 
-.banner-title{
+.banner-title {
   font-size: min(18.75vw, 360px);
   line-height: 1;
 }
 
-.banner-pagination-list{
+.banner-pagination-list {
   display: flex;
   justify-content: center;
 }
 
-.banner-pagination-item{
+.banner-pagination-item {
   display: flex;
 }
 
-.banner-pagination-button{
+.banner-pagination-button {
   display: inline-flex;
   justify-content: center;
   align-items: center;
@@ -356,7 +425,7 @@ h6 {
   border: none;
 }
 
-.banner-pagination-button::after{
+.banner-pagination-button::after {
   content: '';
   width: 10px;
   aspect-ratio: 1;
@@ -365,14 +434,54 @@ h6 {
   transition-duration: var(--transition-duration);
 }
 
-.banner-pagination-button.is-current::after{
+.banner-pagination-button.is-current::after {
   background-color: var(--color-light);
 }
 
-.banner-pagination-button:not(.is-current):hover::after{
+.banner-pagination-button:not(.is-current):hover::after {
   border-color: var(--color-light-gray);
 }
 
+.motivation-item:nth-child(even) {
+  background-color: var(--color-dark-alternate);
+}
+
+.motivation-item:nth-child(even) .motivation-card {
+  flex-direction: row-reverse;
+}
+
+.motivation-card {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  column-gap: clamp(30px, 10.42vw, 200px);
+}
+
+.motivation-card-image {
+  margin-block: -60px;
+}
+
+.motivation-card-body {
+  padding-left: 35px;
+}
+
+.motivation-card-title:not(:last-child) {
+  margin-bottom: 14px;
+}
+
+.motivation-card-description {
+  max-width: 400px;
+}
+
+.motivation-card-description:not(:last-child) {
+  margin-bottom: 37px;
+}
+
+@media (max-width: 1919px) {
+  .motivation-card-image {
+    margin-block: -20px;
+  }
+}
 
 @media (max-width: 1024px) {
   .header {
@@ -395,8 +504,18 @@ h6 {
     height: 50px;
   }
 
-  .banner{
+  .banner {
     row-gap: 10px;
+  }
+
+  .motivation-card {
+    padding-block: 50px;
+  }
+
+  .motivation-card-image {
+    max-width: 30%;
+    height: auto;
+    margin-block: 0;
   }
 }
 
@@ -421,11 +540,29 @@ h6 {
     column-gap: 15px;
   }
 
-  .banner-info{
+  .banner-info {
     margin-bottom: 5px;
   }
 
-  .banner-info::before{
+  .banner-info::before {
     margin-right: 10px;
+  }
+
+  .motivation-card,
+  .motivation-item:nth-child(even) .motivation-card {
+    flex-direction: column-reverse;
+  }
+
+  .motivation-card{
+    row-gap: 30px;
+    padding-block: 30px;
+  }
+
+  .motivation-card-image {
+    max-width: 60%;
+  }
+
+  .motivation-card-description:not(:last-child){
+    margin-bottom: 20px;
   }
 }
